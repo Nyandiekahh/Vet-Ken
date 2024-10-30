@@ -1,0 +1,109 @@
+/* src/components/layout/Navbar/Navbar.module.css */
+.navbar {
+    background: var(--background-dark);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+  }
+  
+  .navContent {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+  }
+  
+  .navList {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navList a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-full);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .navList a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  .navList a:hover::after,
+  .activeLink::after {
+    width: 80% !important;
+  }
+  
+  .menuButton {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .menuButton span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    .menuButton {
+      display: flex;
+    }
+  
+    .menuButton.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+  
+    .menuButton.open span:nth-child(2) {
+      opacity: 0;
+    }
+  
+    .menuButton.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  
+    .navList {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--background-dark);
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      gap: 1rem;
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+  
+    .navList.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+  }

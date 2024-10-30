@@ -1,0 +1,44 @@
+/* src/components/ui/Button/Button.module.css */
+.button {
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .primary {
+    background: var(--primary-color);
+    color: var(--white);
+  }
+  
+  .secondary {
+    background: var(--secondary-color);
+    color: var(--white);
+  }
+  
+  .outline {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  .small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .medium {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+  
+  .button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
