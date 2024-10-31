@@ -1,260 +1,345 @@
-/* src/components/sections/Booking/BookingModal.module.css */
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 1rem;
-  }
-  
-  .modalContent {
-    background-color: white;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 900px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    animation: modalSlideIn 0.3s ease;
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-    z-index: 1;
-  }
-  
-  .modalHeader {
-    padding: 2rem 2rem 0;
-    text-align: center;
-  }
-  
-  .modalHeader h2 {
-    color: #4a148c;
-    margin-bottom: 2rem;
-  }
-  
-  .modalBody {
-    padding: 2rem;
-  }
-  
-  .steps {
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    position: relative;
-    margin-bottom: 2rem;
-  }
-  
-  .steps::before {
-    content: '';
-    position: absolute;
-    top: 25px;
-    left: 50px;
-    right: 50px;
-    height: 2px;
-    background-color: #e0e0e0;
-    z-index: 1;
-  }
-  
-  .step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-  }
-  
-  .stepNumber {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: white;
-    border: 2px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    transition: all 0.3s ease;
-  }
-  
-  .step.active .stepNumber {
-    background-color: #4a148c;
-    border-color: #4a148c;
-    color: white;
-  }
-  
-  .services {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .serviceCard {
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .serviceCard:hover {
-    border-color: #4a148c;
-    transform: translateY(-2px);
-  }
-  
-  .serviceCard.selected {
-    border-color: #4a148c;
-    background-color: rgba(74, 20, 140, 0.05);
-  }
-  
-  .serviceDetails {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem 0;
-    color: #666;
-  }
-  
-  .dateTimeContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-  
-  .calendarWrapper {
-    width: 100%;
-  }
-  
-  .calendar {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .timeSelection {
-    padding: 1rem;
-  }
-  
-  .timeSlots {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .timeSlot {
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    background-color: white;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modalHeader {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 0 40px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+}
+
+.stepNumber {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.step.active {
+  color: #007bff;
+}
+
+.step.active .stepNumber {
+  background: #007bff;
+  color: white;
+}
+
+.modalBody {
+  padding: 20px;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.serviceCard {
+  border: 2px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.serviceCard:hover {
+  border-color: #007bff;
+  transform: translateY(-2px);
+}
+
+.serviceCard.selected {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+.serviceCard h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.serviceDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.platformSelection {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.platformOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.platformOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.dateTimeContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.timeSelection h3 {
+  margin-bottom: 15px;
+}
+
+.dateInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.timeSlot {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .timeSlot:hover {
-    border-color: #4a148c;
-    transform: translateY(-2px);
+  border-color: #007bff;
 }
 
 .timeSlot.selected {
-    background-color: #4a148c;
-    color: white;
-    border-color: #4a148c;
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
 }
 
 .form {
-    display: grid;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .formGroup label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #4a148c;
+  font-weight: 500;
+  color: #333;
 }
 
-.formGroup input, .formGroup select, .formGroup textarea {
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    transition: border-color 0.3s ease;
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.formGroup input:focus, .formGroup select:focus, .formGroup textarea:focus {
-    border-color: #4a148c;
-    outline: none;
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
-.error {
-    color: #d32f2f;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #007bff;
 }
 
 .modalFooter {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem;
-    background-color: #f7f7f7;
-    border-top: 1px solid #e0e0e0;
-    border-radius: 0 0 12px 12px;
-}
-
-.backButton, .nextButton {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .backButton {
-    background-color: #e0e0e0;
-    color: #4a148c;
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .backButton:hover {
-    background-color: #c5c5c5;
+  background: #f5f5f5;
 }
 
 .nextButton {
-    background-color: #4a148c;
-    color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.nextButton:hover {
-    background-color: #3c0c8a;
+.nextButton:hover:not(:disabled) {
+  background: #0056b3;
 }
 
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.nextButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.successMessage {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.successMessage h3 {
+  color: #28a745;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.successMessage p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.confirmationAnimation {
+  animation: pulse 2s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .dateTimeContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .services {
+    grid-template-columns: 1fr;
+  }
+  
+  .modalContent {
+    width: 95%;
+    max-height: 95vh;
+  }
+  
+  .steps {
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  
+  .stepNumber {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+  }
+}
+
+/* Additional accessibility styles */
+.modalContent:focus {
+  outline: none;
+}
+
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+
+.platformOption:focus-within {
+  outline: 2px solid #007bff;
+  border-radius: 4px;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .serviceCard.selected {
+    border: 2px solid CanvasText;
+  }
+  
+  .timeSlot.selected {
+    border: 2px solid CanvasText;
+  }
 }

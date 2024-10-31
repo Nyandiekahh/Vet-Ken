@@ -11,6 +11,7 @@ interface FormData {
   phone: string;
   animalType: string;
   notes: string;
+  videoCallPlatform?: string;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
@@ -18,16 +19,26 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
   const [selectedService, setSelectedService] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [selectedPlatform, setSelectedPlatform] = useState('');
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
     animalType: '',
-    notes: ''
+    notes: '',
+    videoCallPlatform: '',
   });
-  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false); // State for confirmation
+  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false);
 
   const services = [
+    { 
+      id: 'online-consultation', 
+      title: 'Online Consultation', 
+      duration: '30 mins', 
+      price: 'KES 1,200', 
+      description: 'Virtual consultation with our veterinary experts',
+      isOnline: true
+    },
     { id: 'general-checkup', title: 'General Animal Health Check', duration: '30 mins', price: 'KES 1,500', description: 'Complete health assessment for your livestock or pets' },
     { id: 'vaccination', title: 'Vaccination Services', duration: '15 mins', price: 'KES 1,000', description: 'Routine vaccinations and preventive care' },
     { id: 'farm-consult', title: 'Farm Consultation', duration: '1 hour', price: 'KES 3,000', description: 'Expert advice on farm management and animal health' },
@@ -41,9 +52,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
       ...formData,
       service: selectedService,
       date: selectedDate,
-      time: selectedTime
+      time: selectedTime,
+      videoCallPlatform: selectedPlatform
     });
-    setIsBookingConfirmed(true); // Set confirmation state to true
+    setIsBookingConfirmed(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -60,7 +72,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
         <div
           key={service.id}
           className={`${styles.serviceCard} ${selectedService === service.id ? styles.selected : ''}`}
-          onClick={() => setSelectedService(service.id)}
+          onClick={() => {
+            setSelectedService(service.id);
+            if (!service.isOnline) {
+              setSelectedPlatform('');
+            }
+          }}
         >
           <h3>{service.title}</h3>
           <div className={styles.serviceDetails}>
@@ -68,6 +85,34 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
             <span>{service.price}</span>
           </div>
           <p>{service.description}</p>
+          
+          {service.isOnline && selectedService === service.id && (
+            <div className={styles.platformSelection}>
+              <h4>Select Platform:</h4>
+              <div className={styles.platformOptions}>
+                <label className={styles.platformOption}>
+                  <input
+                    type="radio"
+                    name="platform"
+                    value="google-meets"
+                    checked={selectedPlatform === 'google-meets'}
+                    onChange={(e) => setSelectedPlatform(e.target.value)}
+                  />
+                  Google Meets
+                </label>
+                <label className={styles.platformOption}>
+                  <input
+                    type="radio"
+                    name="platform"
+                    value="whatsapp"
+                    checked={selectedPlatform === 'whatsapp'}
+                    onChange={(e) => setSelectedPlatform(e.target.value)}
+                  />
+                  WhatsApp Video Call
+                </label>
+              </div>
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -81,6 +126,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
           type="date"
           onChange={(e) => setSelectedDate(e.target.value)}
           className={styles.dateInput}
+          min={new Date().toISOString().split('T')[0]} // Prevent past dates
         />
       </div>
       <div className={styles.timeSelection}>
@@ -192,10 +238,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
         </div>
 
         <div className={styles.modalBody}>
-          {isBookingConfirmed ? ( // Conditional rendering for success message
+          {isBookingConfirmed ? (
             <div className={styles.successMessage}>
               <h3>Booking Confirmed!</h3>
               <p>Your appointment has been successfully booked.</p>
+              {selectedService === 'online-consultation' && (
+                <p>You will receive {selectedPlatform === 'google-meets' ? 'a Google Meets link' : 'WhatsApp video call details'} before your appointment.</p>
+              )}
             </div>
           ) : (
             <>
@@ -207,7 +256,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
         </div>
 
         <div className={styles.modalFooter}>
-          {currentStep > 1 && !isBookingConfirmed && ( // Disable back button if booking is confirmed
+          {currentStep > 1 && !isBookingConfirmed && (
             <button 
               className={styles.backButton}
               onClick={() => setCurrentStep(current => current - 1)}
@@ -216,10 +265,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
             </button>
           )}
           <button
-            className={`${styles.nextButton} ${isBookingConfirmed ? styles.confirmationAnimation : ''}`} // Animation class
+            className={`${styles.nextButton} ${isBookingConfirmed ? styles.confirmationAnimation : ''}`}
             onClick={() => {
               if (isBookingConfirmed) {
-                onClose(); // Close modal after confirmation
+                onClose();
               } else if (currentStep === 3) {
                 onSubmit();
               } else {
@@ -227,11 +276,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
               }
             }}
             disabled={
-              (currentStep === 1 && !selectedService) ||
+              (currentStep === 1 && (!selectedService || (selectedService === 'online-consultation' && !selectedPlatform))) ||
               (currentStep === 2 && (!selectedDate || !selectedTime))
             }
           >
-            {currentStep === 3 ? 'Confirm Booking' : 'Next'}
+            {isBookingConfirmed ? 'Close' : currentStep === 3 ? 'Confirm Booking' : 'Next'}
           </button>
         </div>
       </div>
