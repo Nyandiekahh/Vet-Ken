@@ -1,4 +1,3 @@
-// components/Navbar/Navbar.tsx
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import Logo from '../../Logo/Logo';
@@ -31,6 +30,15 @@ const Navbar: React.FC = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
+    { 
+      path: '/shop', 
+      label: 'Shop',
+      subItems: [
+        { path: '/shop/medications', label: 'Buy Medications' },
+        { path: '/shop/pets', label: 'Buy Pets' },
+        { path: '/shop/sell', label: 'Sell Your Pet' },
+      ]
+    },
     { path: '/services', label: 'Services' },
     { path: '/about', label: 'About Us' },
     { path: '/gallery', label: 'Gallery' },
@@ -72,6 +80,17 @@ const Navbar: React.FC = () => {
                     </NavLink>
                   </li>
                 ))}
+                <li className={styles.navItem}>
+                  <NavLink 
+                    to="/booking"
+                    className={({ isActive }) => 
+                      `${styles.navLink} ${isActive ? styles.active : ''}`
+                    }
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Book Appointment
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </div>

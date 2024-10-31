@@ -286,3 +286,39 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Add this alongside your existing .missionImage img styles */
+.missionVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+}
+
+/* Optional hover effect similar to your other interactive elements */
+.missionVideo:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Style the video controls to match your theme */
+.missionVideo::-webkit-media-controls-panel {
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+}
+
+.missionVideo::-webkit-media-controls-play-button {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* Ensure video maintains aspect ratio on mobile */
+@media (max-width: 768px) {
+  .missionVideo {
+    min-height: 300px;
+    width: 100%;
+  }
+}

@@ -97,11 +97,15 @@ const About = () => {
               </div>
             </div>
             <div className={styles.missionImage}>
-              <img 
-                src="https://images.pexels.com/photos/735968/pexels-photo-735968.jpeg" 
-                alt="Veterinarian with cattle"
-              />
-            </div>
+  <video 
+    controls
+    playsInline
+    className={styles.missionVideo}
+  >
+    <source src="/Dairy Farming in Kenya.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
           </div>
         </div>
       </div>
