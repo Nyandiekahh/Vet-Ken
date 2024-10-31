@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+// components/Navbar/Navbar.tsx
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import Logo from '../../Logo/Logo';
 import styles from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isOpen && !target.closest(`.${styles.navContainer}`) && !target.closest(`.${styles.menuButton}`)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isOpen]);
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -15,34 +39,45 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navContent}>
-        <button 
-          className={`${styles.menuButton} ${isOpen ? styles.open : ''}`}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
+      <nav className={styles.navbar}>
+        <div className={styles.container}>
+          <Link to="/" className={styles.logoContainer}>
+            <Logo className={styles.logo} />
+          </Link>
 
-        <ul className={`${styles.navList} ${isOpen ? styles.open : ''}`}>
-          {navItems.map((item) => (
-            <li key={item.path}>
-              <NavLink 
-                to={item.path}
-                className={({ isActive }) => 
-                  isActive ? styles.activeLink : undefined
-                }
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </nav>
+          <div className={styles.menuContainer}>
+            <button 
+              className={`${styles.menuButton} ${isOpen ? styles.open : ''}`}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+
+            <div className={`${styles.navContainer} ${isOpen ? styles.open : ''}`}>
+              <ul className={styles.navList}>
+                {navItems.map((item) => (
+                  <li key={item.path} className={styles.navItem}>
+                    <NavLink 
+                      to={item.path}
+                      className={({ isActive }) => 
+                        `${styles.navLink} ${isActive ? styles.active : ''}`
+                      }
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 };
 

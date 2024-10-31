@@ -1,0 +1,204 @@
+/* src/components/sections/Services/ServiceModal.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .closeButton:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .modalTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 24px;
+    padding-right: 40px;
+  }
+  
+  .tabList {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 24px;
+  }
+  
+  .tabButton {
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  
+  .tabButton.active {
+    color: #0ea5e9;
+    border-bottom-color: #0ea5e9;
+  }
+  
+  .tabButton:hover {
+    color: #0ea5e9;
+  }
+  
+  .tabContent {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .section {
+    margin-bottom: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+  }
+  
+  .description {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  
+  .list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  @media (min-width: 640px) {
+    .list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .listItem {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    color: #64748b;
+  }
+  
+  .bullet {
+    color: #0ea5e9;
+  }
+  
+  .checkmark {
+    color: #22c55e;
+  }
+  
+  .lightbulb {
+    color: #f59e0b;
+  }
+  
+  .mythsGrid {
+    display: grid;
+    gap: 16px;
+  }
+  
+  .mythCard {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .mythText {
+    color: #ef4444;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .realityText {
+    color: #22c55e;
+  }
+  
+  .statsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  
+  @media (min-width: 640px) {
+    .statsGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .statCard {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .statValue {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0ea5e9;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
