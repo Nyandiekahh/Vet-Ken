@@ -1,0 +1,484 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  
+  .modalContent {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .modalContent::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .modalContent::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .modalContent::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .closeButton {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  
+  .closeButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+  
+  .modalHeader {
+    padding: 25px 30px;
+    border-bottom: 1px solid #eee;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  
+  .modalHeader h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding: 0 40px;
+    position: relative;
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    position: relative;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .step span {
+    text-decoration: none;
+    position: relative;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.3s ease;
+  }
+  
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: calc(50% + 20px);
+    right: calc(50% - 20px);
+    top: 15px;
+    height: 2px;
+    background: #eee;
+    z-index: 1;
+  }
+  
+  .step.active {
+    color: #007bff;
+  }
+  
+  .step.active span {
+    color: #007bff;
+    font-weight: 500;
+  }
+  
+  .step.active:not(:last-child)::after {
+    background: #007bff;
+  }
+  
+  .stepNumber {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .step.active .stepNumber {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  .modalBody {
+    padding: 30px;
+  }
+  
+  /* Service Confirmation Step */
+  .serviceConfirmation {
+    padding: 20px 0;
+  }
+  
+  .serviceCard {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+  }
+  
+  .serviceCard:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .serviceCard h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .platformSelection {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .platformOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+  }
+  
+  .platformOption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .platformOption:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .platformOption input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #007bff;
+  }
+  
+  /* Date Time Selection Step */
+  .dateTimeContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  
+  .timeSelection h3 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .dateInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .dateInput:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+  }
+  
+  .timeSlots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  
+  .timeSlot {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .timeSlot:hover:not(.selected) {
+    border-color: #007bff;
+    background: #f8f9ff;
+  }
+  
+  .timeSlot.selected {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* User Details Form Step */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .formGroup label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+    transition: all 0.3s ease;
+    color: #333;
+    background: white;
+  }
+  
+  .formGroup input:hover,
+  .formGroup select:hover,
+  .formGroup textarea:hover {
+    border-color: #b3b3b3;
+  }
+  
+  .formGroup input:focus,
+  .formGroup select:focus,
+  .formGroup textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+  }
+  
+  .formGroup textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 200px;
+  }
+  
+  /* Success Message */
+  .successMessage {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .successMessage h3 {
+    color: #28a745;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .successMessage p {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Modal Footer */
+  .modalFooter {
+    padding: 20px 30px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    background: white;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+  }
+  
+  .backButton {
+    padding: 12px 24px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .backButton:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+  
+  .nextButton {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    min-width: 100px;
+  }
+  
+  .nextButton:hover:not(:disabled) {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  .nextButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .confirmationAnimation {
+    animation: pulse 1s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .modalContent {
+      max-height: 95vh;
+    }
+  
+    .steps {
+      padding: 0 20px;
+    }
+  
+    .dateTimeContainer {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  
+    .step span {
+      font-size: 12px;
+    }
+  
+    .stepNumber {
+      width: 25px;
+      height: 25px;
+      font-size: 14px;
+    }
+  
+    .timeSlots {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+  
+    .modalHeader h2 {
+      font-size: 20px;
+    }
+  
+    .modalBody {
+      padding: 20px;
+    }
+  
+    .modalFooter {
+      padding: 15px 20px;
+    }
+  
+    .backButton,
+    .nextButton {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Accessibility Styles */
+  @media (prefers-reduced-motion: reduce) {
+    .confirmationAnimation {
+      animation: none;
+    }
+  
+    * {
+      transition: none !important;
+    }
+  }
+  
+  /* High Contrast Mode Support */
+  @media (forced-colors: active) {
+    .step.active .stepNumber {
+      border: 2px solid CanvasText;
+    }
+    
+    .timeSlot.selected {
+      border: 2px solid CanvasText;
+    }
+  
+    .modalContent {
+      border: 1px solid CanvasText;
+    }
+  }

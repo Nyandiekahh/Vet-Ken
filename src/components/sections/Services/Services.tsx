@@ -2,11 +2,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Services.module.css';
 import ServiceModal from './ServiceModal';
+import BookingModal from './BookingModal';
 import { serviceContent } from './serviceContent';
 
 interface Service {
   id: number;
-  // icon: string;
   title: string;
   description: string;
   image: string;
@@ -16,7 +16,6 @@ interface Service {
 const services: Service[] = [
   {
     id: 1,
-    // icon: '💉',
     title: 'Veterinary Care',
     description: 'Complete health checks, vaccinations, and treatment services for all animals.',
     image: 'https://www.shutterstock.com/image-photo/livestock-farm-worker-veterinarian-examining-600nw-2485453139.jpg',
@@ -24,7 +23,6 @@ const services: Service[] = [
   },
   {
     id: 2,
-    // icon: '🦴',
     title: 'Nutrition & Feed',
     description: 'Expert advice on animal nutrition and quality feed supplements.',
     image: 'https://www.deheus.co.ke/contentassets/2d0f7218775e455d9e2a54356b83c301/de-heus-animal-nutrition_animal-feed_compound-feed_hero.jpg?mode=crop&width=500&height=350',
@@ -32,7 +30,6 @@ const services: Service[] = [
   },
   {
     id: 3,
-    // icon: '🚑',
     title: 'Emergency Services',
     description: 'Urgent Care, Unmatched Compassion: Your Trusted Partner in animal Emergencies.',
     image: 'https://richmondfamilymagazine.com/wp-content/uploads/static/article/99557/1708_PetStop_F.jpg',
@@ -40,7 +37,6 @@ const services: Service[] = [
   },
   {
     id: 4,
-    // icon: '🔬',
     title: 'Laboratory Services',
     description: 'Advanced diagnostic testing and lab work for accurate treatment.',
     image: 'https://png.pngtree.com/background/20230827/original/pngtree-animal-experiments-flask-lab-animal-photo-picture-image_4852793.jpg',
@@ -48,7 +44,6 @@ const services: Service[] = [
   },
   {
     id: 5,
-    // icon: '🐄',
     title: 'Breeding Services',
     description: 'Professional breeding services including artificial insemination.',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7Cj7ikfCMe6xJlJYOyPq72G_jmAumrwLg3g&s',
@@ -56,7 +51,6 @@ const services: Service[] = [
   },
   {
     id: 6,
-    // icon: '🦠',
     title: 'Parasite Control',
     description: 'Tailored Parasite Control for Paws, Hooves, and Feathers – Keeping Your Animals Protected.',
     image: 'https://assets.elanco.com/8e0bf1c2-1ae4-001f-9257-f2be3c683fb1/dbb04688-68a1-49e1-a3d9-f53f06d7067a/dog-ticks-vary-in-size_0.jpg?w=750&q=75&auto=format',
@@ -64,7 +58,6 @@ const services: Service[] = [
   },
   {
     id: 7,
-    // icon: '🦮',
     title: 'Dog Walking',
     description: 'Paws in Motion: Where Every Step Is a Wagging Tail Adventure!',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd5X2kOGH-hgnk2X3WEV8yxwJ5e3fz5GzgpQ&s',
@@ -72,7 +65,6 @@ const services: Service[] = [
   },
   {
     id: 8,
-    // icon: '🏥',
     title: 'Disease Treatment',
     description: 'Paws to health: Nurturing wellness one paw at a time.',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThd7BeNMR3HbHNfrzyB1QGGATtHv1JSx4kyg&s',
@@ -80,7 +72,6 @@ const services: Service[] = [
   },
   {
     id: 9,
-    // icon: '🚜',
     title: 'Farm Visits',
     description: 'Bringing Veterinary Care to Your Fields – Expertise Rooted in Rural Wellness.',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9vr0XStAjzcC4MC8JlNtzKFcQ32AWGFjhBQ&s',
@@ -88,7 +79,6 @@ const services: Service[] = [
   },
   {
     id: 10,
-    // icon: '💉',
     title: 'Vaccination',
     description: 'Tailored Vaccination Solutions for Lifelong Pet Wellness.',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCkUG_ROhWAIq0PKgaWXtQG9S0Fd4bYoeEag&s',
@@ -96,7 +86,6 @@ const services: Service[] = [
   },
   {
     id: 11,
-    // icon: '✂️',
     title: 'Pet Grooming',
     description: 'Unleashing the Best in Your Pet\'s Grooming Experience – Where Tails Wag with Joy!',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9q6ZoDkqg6qCMd0dJ8TFwCMbxW1ZCoHNqzg&s',
@@ -104,7 +93,6 @@ const services: Service[] = [
   },
   {
     id: 12,
-    // icon: '🎓',
     title: 'Dog Training',
     description: 'Beyond Obedience: Tailored Training for Lifelong Bonds – Unleash the Best in Your Dog!',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdBX73dWeJwwegWHX3Lt7WU2O42QiuwkdfMw&s',
@@ -112,7 +100,6 @@ const services: Service[] = [
   },
   {
     id: 13,
-    // icon: '👨‍⚕️',
     title: 'Consultation',
     description: 'Tailoring Solutions for Your Pet\'s Well-being. Consult with Our Experts Today!',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLnZ4e3aoE3x-LF0AVxkAqI0XcG9C-_vyMow&s',
@@ -122,10 +109,10 @@ const services: Service[] = [
 
 const Services = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [selectedService, setSelectedService] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // Add the service mapping function
   const getServiceContentKey = (title: string): string => {
     const titleToKeyMap: { [key: string]: string } = {
       'Veterinary Care': 'veterinaryCare',
@@ -168,14 +155,23 @@ const Services = () => {
   }, []);
 
   const handleServiceAction = (service: Service, action: string) => {
-    const serviceId = getServiceContentKey(service.title);
-    const content = serviceContent[serviceId as keyof typeof serviceContent];
-    
-    if (content) {
-      setSelectedService(content);
-      setIsModalOpen(true);
-    } else {
-      console.warn(`No content found for service: ${service.title} (${serviceId})`);
+    if (action === 'Book Now') {
+      setSelectedService(service);
+      setIsBookingModalOpen(true);
+    } else if (action === 'Read More') {
+      const serviceId = getServiceContentKey(service.title);
+      const content = serviceContent[serviceId as keyof typeof serviceContent];
+      
+      if (content) {
+        // Create a combined object that satisfies both Service and ServiceContent
+        setSelectedService({
+          ...service,
+          ...content
+        });
+        setIsServiceModalOpen(true);
+      } else {
+        console.warn(`No content found for service: ${service.title} (${serviceId})`);
+      }
     }
   };
 
@@ -204,7 +200,7 @@ const Services = () => {
                   }}
                 >
                   <div className={styles.iconWrapper}>
-                    {/* <span className={styles.icon}>{service.icon}</span> */}
+                    {/* Icon placeholder if needed */}
                   </div>
                 </div>
                 <div className={styles.contentWrapper}>
@@ -228,11 +224,22 @@ const Services = () => {
         </div>
       </section>
 
-      <ServiceModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        serviceData={selectedService}
-      />
+      {/* Service Modal for Read More */}
+      {isServiceModalOpen && selectedService && (
+        <ServiceModal 
+          isOpen={isServiceModalOpen}
+          onClose={() => setIsServiceModalOpen(false)}
+          serviceData={selectedService}
+        />
+      )}
+
+      {/* Booking Modal for Book Now */}
+      {isBookingModalOpen && selectedService && (
+        <BookingModal
+          service={selectedService}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+      )}
     </>
   );
 };
