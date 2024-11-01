@@ -147,3 +147,24 @@
       text-align: center;
     }
   }
+
+  .poweredBy {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .poweredByLink {
+    color: #4a9eff;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background: rgba(74, 158, 255, 0.1);
+  }
+  
+  .poweredByLink:hover {
+    background: rgba(74, 158, 255, 0.2);
+    color: #5db9ff;
+    transform: translateY(-1px);
+  }

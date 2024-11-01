@@ -69,14 +69,22 @@ const Footer = () => {
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.copyright}>
-            © {currentYear} VetCare Pro. All rights reserved.
-          </div>
-          <div className={styles.bottomLinks}>
-            <Link to="/privacy">Privacy Policy</Link>
-            <Link to="/terms">Terms of Service</Link>
-          </div>
-        </div>
+  <div className={styles.copyright}>
+    © {currentYear} VetCare Pro. All rights reserved. | Powered by{' '}
+    <a 
+      href="https://nyandiekahh.github.io/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={styles.poweredByLink}
+    >
+      ✨ Nyandieka ✨
+    </a>
+  </div>
+  <div className={styles.bottomLinks}>
+    <Link to="/privacy">Privacy Policy</Link>
+    <Link to="/terms">Terms of Service</Link>
+  </div>
+</div>
       </div>
     </footer>
   );
