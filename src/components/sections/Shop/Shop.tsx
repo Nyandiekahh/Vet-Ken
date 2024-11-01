@@ -1,10 +1,13 @@
 // src/components/sections/Shop/Shop.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route, Outlet } from 'react-router-dom';
 import styles from './Shop.module.css';
+import PrescriptionCenter from './MedicationStore/PrescriptionCenter';
+import PetStore from './PetStore/PetStore';
+import SellLivestock from './SellLivestock/SellLivestock';
 
 const Shop: React.FC = () => {
-  console.log('Shop component rendered'); // Debug log
+  console.log('Shop component rendered');
   
   return (
     <div className={styles.shopContainer}>
@@ -14,7 +17,7 @@ const Shop: React.FC = () => {
       </div>
       
       <div className={styles.cardGrid}>
-        <Link to="/shop/medications" className={styles.card}>
+        <Link to="/shop/prescriptions" className={styles.card}>
           <div className={styles.cardImageContainer}>
             <img 
               src="https://www.annapharmacy.com/wp-content/uploads/2023/08/How-Long-Does-An-Anti-Rabies-Vaccine-Provide-Immunity-In-Humans-scaled.webp"
@@ -65,6 +68,14 @@ const Shop: React.FC = () => {
           </div>
         </Link>
       </div>
+
+      {/* Add Routes component for nested routing */}
+      <Routes>
+        <Route index element={<div>Select a category above to get started</div>} />
+        <Route path="prescriptions" element={<PrescriptionCenter />} />
+        <Route path="pets" element={<PetStore />} />
+        <Route path="sell" element={<SellLivestock />} />
+      </Routes>
     </div>
   );
 };

@@ -6,7 +6,6 @@ import Footer from './components/layout/Footer/Footer';
 import Home from './pages/Home/Home';
 import Services from './pages/Services/Services';
 import Contact from './pages/Contact/Contact';
-// Change the import to use ConsultationBooking instead
 import ConsultationBooking from './components/sections/Booking/ConsultationBooking';
 import Gallery from './components/sections/Gallery/Gallery';
 import About from './components/sections/About/About';
@@ -30,15 +29,10 @@ const App: React.FC = () => {
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
-              {/* Change this line to use ConsultationBooking */}
               <Route path="/booking" element={<ConsultationBooking />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/about" element={<About />} />
-              <Route path="/shop" element={<Shop />}>
-                <Route path="prescriptions" element={<PrescriptionCenter />} />
-                <Route path="pets" element={<PetStore />} />
-                <Route path="sell" element={<SellLivestock />} />
-              </Route>
+              <Route path="/shop/*" element={<Shop />} />
             </Routes>
           </main>
           <Footer />
