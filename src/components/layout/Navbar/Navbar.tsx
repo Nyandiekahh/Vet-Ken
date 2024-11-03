@@ -1,3 +1,4 @@
+// Navbar.tsx
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import Logo from '../../Logo/Logo';
@@ -15,7 +16,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -43,6 +43,7 @@ const Navbar: React.FC = () => {
     { path: '/about', label: 'About Us' },
     { path: '/gallery', label: 'Gallery' },
     { path: '/education', label: 'Education' },
+    { path: '/testimonials', label: 'Testimonials' }, // Added testimonials
     { path: '/contact', label: 'Contact' },
   ];
 

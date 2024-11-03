@@ -1,0 +1,146 @@
+/* // Testimonials.module.css */
+.testimonials {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.header h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.header p {
+  color: #6b7280;
+}
+
+.testimonialSlider {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonialContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonialItem {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+.testimonialItem.active {
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+.testimonialItem blockquote {
+  text-align: center;
+  padding: 2rem;
+}
+
+.testimonialItem p {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+.rating {
+  color: #fbbf24;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.author img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorInfo {
+  text-align: left;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.role {
+  color: #6b7280;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.navDot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navDot.active {
+  background-color: #2563eb;
+}
+
+@media (max-width: 640px) {
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .header h3 {
+    font-size: 1.25rem;
+  }
+
+  .testimonialItem p {
+    font-size: 1rem;
+  }
+
+  .author {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .authorInfo {
+    text-align: center;
+  }
+}

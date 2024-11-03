@@ -74,7 +74,7 @@ const Contact = () => {
                 <div className={styles.icon}>📞</div>
                 <div className={styles.details}>
                   <h4>Phone</h4>
-                  <p>+254 XXX XXX XXX</p>
+                  <p>+254 702 687 855</p>
                 </div>
               </div>
 

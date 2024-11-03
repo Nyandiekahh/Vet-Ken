@@ -52,11 +52,11 @@ const ConsultationBooking = () => {
       description: 'Surgical procedures and operations'
     },
     {
-      id: 'lab-tests',
-      title: 'Laboratory Tests',
+      id: 'grooming',
+      title: 'Pet Grooming',
       duration: '1 hour',
-      price: 'From KES 1000',
-      description: 'Comprehensive diagnostic testing'
+      price: 'Custom Quote',
+      description: 'Bringing your Pet\'s far back to life'
     }
   ];
 
