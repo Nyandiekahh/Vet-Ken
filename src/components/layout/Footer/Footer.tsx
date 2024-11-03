@@ -54,11 +54,12 @@ const Footer = () => {
               </li>
               <li>
                 <span className={styles.icon}>📞</span>
-                +254 XXX XXX XXX
+                +254 702 687 855
               </li>
               <li>
                 <span className={styles.icon}>✉️</span>
-                info@vetagrovet.com
+                vetgrokenya@gmail.com
+
               </li>
               <li>
                 <span className={styles.icon}>⏰</span>

@@ -82,7 +82,7 @@ const Contact = () => {
                 <div className={styles.icon}>✉️</div>
                 <div className={styles.details}>
                   <h4>Email</h4>
-                  <p>info@vetagrovet.com</p>
+                  <p>vetgrokenya@gmail.com</p>
                 </div>
               </div>
 
