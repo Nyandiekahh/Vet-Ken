@@ -1,5 +1,6 @@
 // src/components/sections/Contact/Contact.tsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import styles from './Contact.module.css';
 
 interface FormData {
@@ -11,6 +12,7 @@ interface FormData {
 }
 
 const Contact = () => {
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -33,20 +35,41 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setSubmitted(true);
-    setIsSubmitting(false);
-    // Reset form after submission
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+
+    try {
+      // Log the parameters for debugging
+      const templateParams = {
+        from_name: formData.name,
+        reply_to: formData.email,
+        phone_number: formData.phone,
+        subject: formData.subject,
+        message: formData.message
+      };
+
+      console.log('Sending email with params:', templateParams);
+
+      await emailjs.send(
+        'service_n5p0vrs', // Your EmailJS service ID
+        'template_4yoe912', // Create a new template ID for contact form
+        templateParams,
+        'x1_g3JBwrfrcaw1Bl' // Your EmailJS public key
+      );
+
+      setSubmitted(true);
+      // Reset form after submission
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -110,7 +133,7 @@ const Contact = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className={styles.form}>
+              <form ref={form} onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
                   <input
                     type="text"

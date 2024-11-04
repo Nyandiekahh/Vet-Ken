@@ -1,5 +1,6 @@
 // src/components/sections/Shop/SellLivestock/SellLivestock.tsx
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import styles from './SellLivestock.module.css';
 
 interface FormData {
@@ -23,6 +24,8 @@ interface FormData {
 }
 
 const SellLivestock = () => {
+  const form = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     itemType: '',
     category: '',
@@ -61,10 +64,178 @@ const SellLivestock = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission
+    setIsSubmitting(true);
+  
+    try {
+      // Validate image types and sizes before processing
+      if (formData.images) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const maxSizeMB = 5; // Maximum file size in MB
+        
+        for (const file of Array.from(formData.images)) {
+          if (!allowedTypes.includes(file.type)) {
+            alert('Please only upload JPG, JPEG or PNG images.');
+            setIsSubmitting(false);
+            return;
+          }
+          
+          if (file.size > maxSizeMB * 1024 * 1024) {
+            alert(`Image ${file.name} is too large. Maximum size is ${maxSizeMB}MB.`);
+            setIsSubmitting(false);
+            return;
+          }
+        }
+      }
+  
+      // Convert images to base64 strings with consistent format
+      let imageUrls: string[] = [];
+      if (formData.images) {
+        const promises = Array.from(formData.images).map(file => {
+          return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            const img = new Image();
+            
+            img.onload = () => {
+              try {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                const MAX_HEIGHT = 800;
+                let width = img.width;
+                let height = img.height;
+                
+                // Calculate new dimensions while maintaining aspect ratio
+                if (width > height) {
+                  if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                  }
+                } else {
+                  if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                  }
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                
+                // Set white background for PNG images with transparency
+                if (file.type === 'image/png') {
+                  ctx!.fillStyle = '#FFFFFF';
+                  ctx!.fillRect(0, 0, width, height);
+                }
+                
+                ctx!.drawImage(img, 0, 0, width, height);
+                
+                // Always convert to JPEG format
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                resolve(compressedBase64);
+              } catch (error) {
+                reject(error);
+              }
+            };
+            
+            img.onerror = () => {
+              reject(new Error('Failed to load image'));
+            };
+            
+            reader.onloadend = () => {
+              img.src = reader.result as string;
+            };
+            
+            reader.onerror = () => {
+              reject(new Error('Failed to read file'));
+            };
+            
+            reader.readAsDataURL(file);
+          });
+        });
+  
+        try {
+          imageUrls = await Promise.all(promises);
+        } catch (error) {
+          console.error('Error processing images:', error);
+          alert('There was an error processing your images. Please try again with different images.');
+          setIsSubmitting(false);
+          return;
+        }
+      }
+  
+      // Prepare template parameters
+      const templateParams = {
+        to_name: "Admin",
+        from_name: formData.contactName || "Unknown",
+        message: `New listing for ${formData.title}`,
+        itemType: formData.itemType || "Not specified",
+        category: formData.category || "Not specified",
+        title: formData.title || "Not specified",
+        quantity: String(formData.quantity) || "0",
+        price: String(formData.price) || "0",
+        age: formData.age || "Not specified",
+        breed: formData.breed || "Not specified",
+        weight: formData.weight || "Not specified",
+        description: formData.description || "Not specified",
+        location: formData.location || "Not specified",
+        contactName: formData.contactName || "Not specified",
+        contactPhone: formData.contactPhone || "Not specified",
+        contactEmail: formData.contactEmail || "Not specified",
+        vaccination: formData.vaccination ? "Yes" : "No",
+        negotiable: formData.negotiable ? "Yes" : "No",
+        image_1: imageUrls[0] || "",
+        image_2: imageUrls[1] || "",
+        image_3: imageUrls[2] || "",
+        image_4: imageUrls[3] || "",
+        image_5: imageUrls[4] || ""
+      };
+  
+      // Add validation for total payload size
+      const payloadSize = JSON.stringify(templateParams).length;
+      if (payloadSize > 50000000) { // 50MB limit
+        alert('Total data size is too large. Please try with fewer or smaller images.');
+        setIsSubmitting(false);
+        return;
+      }
+  
+      await emailjs.send(
+        'service_n5p0vrs',
+        'template_bf1kq69',
+        templateParams,
+        'x1_g3JBwrfrcaw1Bl'
+      );
+  
+      alert('Your listing has been submitted successfully!');
+      if (form.current) {
+        form.current.reset();
+      }
+      setFormData({
+        itemType: '',
+        category: '',
+        title: '',
+        quantity: 1,
+        price: 0,
+        age: '',
+        breed: '',
+        weight: '',
+        description: '',
+        location: '',
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
+        images: null,
+        vaccination: false,
+        certification: false,
+        negotiable: false
+      });
+      setPreviewUrls([]);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your listing. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -76,7 +247,7 @@ const SellLivestock = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form ref={form} onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGrid}>
           <div className={styles.formSection}>
             <h2 className={styles.sectionTitle}>Basic Information</h2>
@@ -289,8 +460,12 @@ const SellLivestock = () => {
             <button type="button" className={styles.cancelButton}>
               Cancel
             </button>
-            <button type="submit" className={styles.submitButton}>
-              List Item for Sale
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'List Item for Sale'}
             </button>
           </div>
         </div>
