@@ -20,6 +20,7 @@ interface FormData {
 const SellLivestock = () => {
   const form = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
@@ -58,8 +59,6 @@ const SellLivestock = () => {
         message: `New listing: ${formData.title}`
       };
 
-      console.log('Sending data:', JSON.stringify(templateParams, null, 2));
-
       const response = await emailjs.send(
         'service_n5p0vrs',
         'template_bf1kq69',
@@ -68,7 +67,7 @@ const SellLivestock = () => {
       );
 
       console.log('Success:', response);
-      alert('Your listing has been submitted successfully!');
+      setShowSuccess(true);
       
       if (form.current) {
         form.current.reset();
@@ -87,6 +86,12 @@ const SellLivestock = () => {
         sellerPhone: '',
         sellerEmail: ''
       });
+
+      // Scroll to top to show success message
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Hide success message after 10 seconds
+      setTimeout(() => setShowSuccess(false), 10000);
     } catch (error) {
       console.error('Error:', error);
       alert('There was an error submitting your listing. Please try again.');
@@ -99,7 +104,17 @@ const SellLivestock = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Create New Listing</h1>
+        <p className={styles.subtitle}>
+          Detailed listings get 3x more views! Be thorough in your descriptions.
+        </p>
       </div>
+
+      {showSuccess && (
+        <div className={styles.successMessage}>
+          <h3>Thank you for submitting your listing!</h3>
+          <p>Our team will review your submission within 24-48 hours. If additional images or documents are needed, we'll contact you via email. Verified listings with complete information typically receive more buyer interest.</p>
+        </div>
+      )}
 
       <form ref={form} onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formSection}>
@@ -112,9 +127,12 @@ const SellLivestock = () => {
               name="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Enter item title (e.g., Friesian Dairy Cow)"
+              placeholder="Enter descriptive title (e.g., 'Healthy 2-Year-Old Friesian Dairy Cow, Vaccinated')"
               required
             />
+            <span className={styles.fieldTip}>
+              Pro tip: Include key details like breed, age, and main features in the title
+            </span>
           </div>
 
           <div className={styles.formGroup}>
@@ -123,10 +141,13 @@ const SellLivestock = () => {
               name="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Describe your livestock..."
-              rows={4}
+              placeholder="Provide detailed information about your livestock. Include: health history, feeding routine, breeding history, temperament, reason for selling, and any unique characteristics. More details = more interested buyers!"
+              rows={6}
               required
             />
+            <span className={styles.fieldTip}>
+              Listings with detailed descriptions (150+ words) receive up to 3x more inquiries
+            </span>
           </div>
 
           <div className={styles.formRow}>
@@ -143,6 +164,9 @@ const SellLivestock = () => {
                 placeholder="Enter price"
                 required
               />
+              <span className={styles.fieldTip}>
+                Market-appropriate prices attract more serious buyers
+              </span>
             </div>
 
             <div className={styles.formGroup}>
@@ -169,8 +193,11 @@ const SellLivestock = () => {
                 name="age"
                 value={formData.age}
                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                placeholder="e.g., 2 years"
+                placeholder="e.g., 2 years 3 months"
               />
+              <span className={styles.fieldTip}>
+                Specific age details increase buyer trust
+              </span>
             </div>
 
             <div className={styles.formGroup}>
@@ -182,6 +209,9 @@ const SellLivestock = () => {
                 onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                 placeholder="e.g., 400 kg"
               />
+              <span className={styles.fieldTip}>
+                Include recent weight measurements if available
+              </span>
             </div>
           </div>
 
@@ -192,8 +222,11 @@ const SellLivestock = () => {
               name="breed"
               value={formData.breed}
               onChange={(e) => setFormData({ ...formData, breed: e.target.value })}
-              placeholder="e.g., Friesian, Merino"
+              placeholder="e.g., Pure Friesian, Crossbreed Merino (specify percentages if known)"
             />
+            <span className={styles.fieldTip}>
+              Specify pure breeds or crossbreed percentages for higher visibility
+            </span>
           </div>
 
           <div className={styles.formGroup}>
@@ -206,6 +239,9 @@ const SellLivestock = () => {
               />
               Vaccinated/Health Certificate Available
             </label>
+            <span className={styles.fieldTip}>
+              Listings with health certificates get 2x more inquiries
+            </span>
           </div>
 
           <div className={styles.formGroup}>
@@ -215,9 +251,12 @@ const SellLivestock = () => {
               name="location"
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              placeholder="Enter location (e.g., Nairobi, Kenya)"
+              placeholder="Enter detailed location (e.g., Kikuyu, Kiambu County, Kenya)"
               required
             />
+            <span className={styles.fieldTip}>
+              Specific locations help attract local buyers
+            </span>
           </div>
         </div>
 
@@ -243,6 +282,7 @@ const SellLivestock = () => {
                 name="sellerPhone"
                 value={formData.sellerPhone}
                 onChange={(e) => setFormData({ ...formData, sellerPhone: e.target.value })}
+                placeholder="e.g., +254 700 000000"
                 required
               />
             </div>
@@ -261,6 +301,9 @@ const SellLivestock = () => {
         </div>
 
         <div className={styles.formFooter}>
+          <p className={styles.submissionNote}>
+            After submission, our team will review your listing and may contact you for additional images or documentation. Complete listings are typically reviewed within 24-48 hours.
+          </p>
           <div className={styles.buttonGroup}>
             <button type="button" className={styles.cancelButton}>
               Cancel
