@@ -27,14 +27,14 @@ const ConsultationBooking = () => {
       id: 'vaccination',
       title: 'Vaccination',
       duration: '15 mins',
-      price: 'KES 1500',
+      price: 'Custom Quote',
       description: 'Essential vaccinations and immunizations'
     },
     {
       id: 'farm-visit',
       title: 'Farm Visit',
       duration: '2 hours',
-      price: 'KES 5000',
+      price: 'KES 2000',
       description: 'On-site farm visit and consultation'
     },
     {

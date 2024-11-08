@@ -1,10 +1,10 @@
-// src/components/sections/Shop/Shop.tsx
 import React from 'react';
-import { Link, Routes, Route, Outlet } from 'react-router-dom';
+import { Link, Routes, Route, Outlet } from 'react-router-dom'; // Ensure Routes and Route are imported
 import styles from './Shop.module.css';
 import PrescriptionCenter from './MedicationStore/PrescriptionCenter';
 import PetStore from './PetStore/PetStore';
-import SellLivestock from './SellLivestock/SellLivestock';
+import SellLivestock from './SellLivestock/SellLivestock'; // Ensure SellLivestock is imported correctly
+import Agrovet from './Agrovet/Agrovet'; // Ensure Agrovet is imported correctly
 
 const Shop: React.FC = () => {
   console.log('Shop component rendered');
@@ -21,12 +21,12 @@ const Shop: React.FC = () => {
           <div className={styles.cardImageContainer}>
             <img 
               src="https://www.annapharmacy.com/wp-content/uploads/2023/08/How-Long-Does-An-Anti-Rabies-Vaccine-Provide-Immunity-In-Humans-scaled.webp"
-              alt="Pet Medications" 
+              alt="Pet Products" 
               className={styles.cardImage}
             />
           </div>
           <div className={styles.cardContent}>
-            <h2 className={styles.cardTitle}>Pet Medications</h2>
+            <h2 className={styles.cardTitle}>Pet Products</h2>
             <p className={styles.cardDescription}>
               Browse our selection of veterinary medications and supplements.
             </p>
@@ -67,6 +67,24 @@ const Shop: React.FC = () => {
             <span className={styles.cardLink}>Start Selling →</span>
           </div>
         </Link>
+
+        {/* New Agrovet Section */}
+        <Link to="/shop/agrovet" className={styles.card}>
+          <div className={styles.cardImageContainer}>
+            <img 
+              src="https://i0.wp.com/transvilleagrong.com/wp-content/uploads/Motorized-knapsack-sprayer-A-Detailed-Guide-for-Efficient-Use.jpg?resize=840%2C473&ssl=1" 
+              alt="Agrovet Products" 
+              className={styles.cardImage}
+            />
+          </div>
+          <div className={styles.cardContent}>
+            <h2 className={styles.cardTitle}>Agrovet Products</h2>
+            <p className={styles.cardDescription}>
+              Explore a wide range of products for animal health and care at our agrovet.
+            </p>
+            <span className={styles.cardLink}>View Products →</span>
+          </div>
+        </Link>
       </div>
 
       {/* Add Routes component for nested routing */}
@@ -75,6 +93,7 @@ const Shop: React.FC = () => {
         <Route path="prescriptions" element={<PrescriptionCenter />} />
         <Route path="pets" element={<PetStore />} />
         <Route path="sell" element={<SellLivestock />} />
+        <Route path="agrovet" element={<Agrovet />} /> {/* New Route for Agrovet */}
       </Routes>
     </div>
   );
