@@ -29,6 +29,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
     videoCallPlatform: '',
   });
   const [isBookingConfirmed, setIsBookingConfirmed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const services = [
     { 
@@ -47,17 +49,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
 
   const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'];
 
-  const onSubmit = () => {
-    console.log({
-      ...formData,
-      service: selectedService,
-      date: selectedDate,
-      time: selectedTime,
-      videoCallPlatform: selectedPlatform
-    });
-    setIsBookingConfirmed(true);
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -66,6 +57,53 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
     });
   };
 
+  const onSubmit = async () => {
+    setIsSubmitting(true);
+    setSubmitError(null);
+  
+    try {
+      const serviceDetails = services.find(service => service.id === selectedService);
+      
+      if (!serviceDetails) {
+        throw new Error('Service not found');
+      }
+  
+      // Now sending to your local server instead of directly to Resend
+      const response = await fetch('http://localhost:5000/api/send-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          serviceDetails: {
+            title: serviceDetails.title,
+            duration: serviceDetails.duration,
+            price: serviceDetails.price
+          },
+          selectedDate,
+          selectedTime,
+          selectedPlatform,
+          animalType: formData.animalType,
+          notes: formData.notes
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send booking');
+      }
+  
+      setIsBookingConfirmed(true);
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitError(error instanceof Error ? error.message : 'Failed to confirm booking. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const renderServiceSelection = () => (
     <div className={styles.services}>
       {services.map((service) => (
@@ -126,7 +164,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
           type="date"
           onChange={(e) => setSelectedDate(e.target.value)}
           className={styles.dateInput}
-          min={new Date().toISOString().split('T')[0]} // Prevent past dates
+          min={new Date().toISOString().split('T')[0]}
         />
       </div>
       <div className={styles.timeSelection}>
@@ -242,6 +280,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
             <div className={styles.successMessage}>
               <h3>Booking Confirmed!</h3>
               <p>Your appointment has been successfully booked.</p>
+              <p>A confirmation email has been sent to {formData.email}</p>
               {selectedService === 'online-consultation' && (
                 <p>You will receive {selectedPlatform === 'google-meets' ? 'a Google Meets link' : 'WhatsApp video call details'} before your appointment.</p>
               )}
@@ -251,6 +290,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
               {currentStep === 1 && renderServiceSelection()}
               {currentStep === 2 && renderDateTimeSelection()}
               {currentStep === 3 && renderUserDetails()}
+              
+              {submitError && (
+                <div className={styles.errorMessage}>
+                  {submitError}
+                </div>
+              )}
             </>
           )}
         </div>
@@ -260,6 +305,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
             <button 
               className={styles.backButton}
               onClick={() => setCurrentStep(current => current - 1)}
+              disabled={isSubmitting}
             >
               Back
             </button>
@@ -276,11 +322,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
               }
             }}
             disabled={
+              isSubmitting ||
               (currentStep === 1 && (!selectedService || (selectedService === 'online-consultation' && !selectedPlatform))) ||
               (currentStep === 2 && (!selectedDate || !selectedTime))
             }
           >
-            {isBookingConfirmed ? 'Close' : currentStep === 3 ? 'Confirm Booking' : 'Next'}
+            {isSubmitting ? 'Sending...' : isBookingConfirmed ? 'Close' : currentStep === 3 ? 'Confirm Booking' : 'Next'}
           </button>
         </div>
       </div>
